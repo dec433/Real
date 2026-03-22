@@ -1,47 +1,62 @@
-<!DOCTYPE html>  <html lang="ko">
+<!DOCTYPE html>
+<html lang="ko">
 
-<head>    
-  <meta charset="utf-8">    
-  <title>Kakao 공유 테스트</title>    
-  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>    
-  <script>    
-    // ✅ 0. URL 파라미터 확인 후 자동 리다이렉트    
-    const params = new URLSearchParams(window.location.search);    
-    const redirectUrl = params.get('url');    
-    if (redirectUrl) {    
-      // 카카오 공유를 실행하지 않고 바로 이동해야 하는 경우    
-      if (!window.location.href.includes('kakaoShare')) {    
-        window.location.href = redirectUrl;    
-      }    
-    }  // ✅ 1. Kakao SDK 초기화    
-Kakao.init('ba4848b56b49c8826ad4113e55670941');    // ✅ 2. 공유 함수 정의
-function sendLink() {
-Kakao.Link.sendDefault({
-objectType: 'feed',
-content: {
-title: '뚜레쥬르',
-description: '스트로베리 케이크',
-imageUrl: 'https://lrl.kr/bCEko',
-link: {
-mobileWebUrl: 'https://dec433.github.io/?url=https://open.kakao.com/o/sEZjJA6g',
-webUrl: 'https://dec433.github.io/?url=https://open.kakao.com/o/sEZjJA6g',
-},
-},
-buttons: [
-{
-title: '선물 받기',
-link: {
-mobileWebUrl: 'https://dec433.github.io/?url=https://www.youtube.com/watch?v=MxIual0m92U',
-webUrl: 'https://dec433.github.io/?url=https://www.youtube.com/watch?v=MxIual0m92U',
-},
-},
-],
-});
-}
+<head>
+  <meta charset="utf-8">
+  <title>Kakao 공유 테스트</title>
+  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+  <script>
+    // ✅ Kakao SDK 초기화 (스크립트 로드 후 실행)
+    document.addEventListener('DOMContentLoaded', function() {
+      Kakao.init('ba4848b56b49c8826ad4113e55670941');
+      
+      if (Kakao.isInitialized()) {
+        console.log('✅ 카카오 SDK 초기화 성공');
+      } else {
+        console.error('❌ 카카오 SDK 초기화 실패');
+      }
+    });
 
-  </script>    
-</head>    
-<body>    
-  <button onclick="sendLink()">카카오톡으로 공유</button>    
-</body>    
-</html>   
+    // ✅ URL 파라미터 확인 후 자동 리다이렉트
+    const params = new URLSearchParams(window.location.search);
+    const redirectUrl = params.get('url');
+    
+    if (redirectUrl && !window.location.href.includes('kakaoShare')) {
+      window.location.href = redirectUrl;
+    }
+
+    // ✅ 공유 함수 정의
+    function sendLink() {
+      Kakao.Link.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: '뚜레쥬르',
+          description: '스트로베리 케이크',
+          // ⭐ 직접 이미지 URL 사용 (단축 URL 대신)
+          imageUrl: 'https://lrl.kr/bCEko',
+          link: {
+            mobileWebUrl: 'https://dec433.github.io/?url=https://open.kakao.com/o/sEZjJA6g',
+            webUrl: 'https://dec433.github.io/?url=https://open.kakao.com/o/sEZjJA6g',
+          },
+        },
+        buttons: [
+          {
+            title: '선물 받기',
+            link: {
+              mobileWebUrl: 'https://dec433.github.io/?url=https://www.youtube.com/watch?v=MxIual0m92U',
+              webUrl: 'https://dec433.github.io/?url=https://www.youtube.com/watch?v=MxIual0m92U',
+            },
+          },
+        ],
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <button onclick="sendLink()" style="padding: 10px 20px; font-size: 16px;">
+    카카오톡으로 공유
+  </button>
+</body>
+
+</html>
