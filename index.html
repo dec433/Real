@@ -4,21 +4,23 @@
   <meta charset="utf-8">
   <title>Kakao 공유 테스트</title>
   <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-  <script>
-    // ✅ 0. URL 파라미터 확인 후 자동 리다이렉트
-    const params = new URLSearchParams(window.location.search);
-    const redirectUrl = params.get('url');
-    if (redirectUrl) {
-      // 카카오 공유를 실행하지 않고 바로 이동해야 하는 경우
-      if (!window.location.href.includes('kakaoShare')) {
-        window.location.href = redirectUrl;
-      }
-    }
+</head>
+<body>
+  <button onclick="sendLink()">카카오톡으로 공유</button>
 
-    // ✅ 1. Kakao SDK 초기화
+  <script>
+    // ✅ 1. SDK 초기화 (먼저 실행)
     Kakao.init('ba4848b56b49c8826ad4113e55670941');
 
-    // ✅ 2. 공유 함수 정의
+    // ✅ 2. URL 파라미터 확인 (초기화 후 실행)
+    const params = new URLSearchParams(window.location.search);
+    const redirectUrl = params.get('url');
+    
+    if (redirectUrl && !window.location.href.includes('kakaoShare')) {
+      window.location.href = redirectUrl;
+    }
+
+    // ✅ 3. 공유 함수
     function sendLink() {
       Kakao.Link.sendDefault({
         objectType: 'feed',
@@ -27,24 +29,21 @@
           description: '스트로베리 케이크',
           imageUrl: 'https://lrl.kr/bCEko',
           link: {
-            mobileWebUrl: 'https://dec433.github.io/real/?v=123&url=https://open.kakao.com/o/sEZjJA6g',
-            webUrl: 'https://dec433.github.io/real/?v=123&url=https://open.kakao.com/o/sEZjJA6g',
+            mobileWebUrl: 'https://dec433.github.io/?url=https://open.kakao.com/o/sEZjJA6g',
+            webUrl: 'https://dec433.github.io/?url=https://open.kakao.com/o/sEZjJA6g',
           },
         },
         buttons: [
           {
             title: '선물 받기',
             link: {
-              mobileWebUrl: 'https://dec433.github.io/real/?v=123&url=https://open.kakao.com/o/sEZjJA6g',
-              webUrl: 'https://dec433.github.io/real/?v=123&url=https://open.kakao.com/o/sEZjJA6g',
+              mobileWebUrl: 'https://dec433.github.io/?url=https://www.youtube.com/watch?v=MxIual0m92U',
+              webUrl: 'https://dec433.github.io/?url=https://www.youtube.com/watch?v=MxIual0m92U',
             },
           },
         ],
       });
     }
   </script>
-</head>
-<body>
-  <button onclick="sendLink()">카카오톡으로 공유</button>
 </body>
 </html>
