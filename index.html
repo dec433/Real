@@ -5,10 +5,20 @@
   <title>Kakao 공유 테스트</title>
   <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   <script>
-    // ✅ Kakao SDK 초기화
-    Kakao.init('e8e38a82f8a23fa041fd1b007e93770f');
+    // ✅ 0. URL 파라미터 확인 후 자동 리다이렉트
+    const params = new URLSearchParams(window.location.search);
+    const redirectUrl = params.get('url');
+    if (redirectUrl) {
+      // 카카오 공유를 실행하지 않고 바로 이동해야 하는 경우
+      if (!window.location.href.includes('kakaoShare')) {
+        window.location.href = redirectUrl;
+      }
+    }
 
-    // ✅ 공유 함수 정의
+    // ✅ 1. Kakao SDK 초기화
+    Kakao.init('449ac5920ebeaa8b7d51394b4d6f9982');
+
+    // ✅ 2. 공유 함수 정의
     function sendLink() {
       Kakao.Link.sendDefault({
         objectType: 'feed',
@@ -17,16 +27,16 @@
           description: '진한 우유 케이크 2호',
           imageUrl: 'https://dec433.github.io/Real/Milk.jpg',
           link: {
-            mobileWebUrl: 'https://dec433.github.io/',
-            webUrl: 'https://dec433.github.io/',
+            mobileWebUrl: 'https://dec433.github.io/?url=https://open.kakao.com/me/dlkff',
+            webUrl: 'https://dec433.github.io/?url=https://open.kakao.com/me/dlkff',
           },
         },
         buttons: [
           {
             title: '선물 받기',
             link: {
-              mobileWebUrl: 'https://dec433.github.io/',
-              webUrl: 'https://dec433.github.io/',
+              mobileWebUrl: 'https://dec433.github.io/?url=https://open.kakao.com/me/dlkff',
+              webUrl: 'https://dec433.github.io/?url=https://open.kakao.com/me/dlkff',
             },
           },
         ],
